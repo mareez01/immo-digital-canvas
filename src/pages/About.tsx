@@ -7,12 +7,18 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import aboutTeam from "@/assets/about-team.jpg";
 import aboutEcosystem from "@/assets/about-ecosystem.jpg";
-import aboutCapabilities from "@/assets/about-capabilities.jpg";
 import { useRef } from "react";
+import {
+  fadeInUp,
+  fadeInLeft,
+  fadeInRight,
+  staggerContainer,
+  staggerItem,
+  smoothTransition,
+  viewportOnce,
+} from "@/lib/animations";
 
 const About = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
   const capabilities = [
     { icon: Code, title: "Web Development & Web Apps" },
     { icon: BarChart3, title: "Dashboards & Automation Tools" },
@@ -37,38 +43,42 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background" ref={containerRef}>
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center justify-center pt-20">
+      <section className="relative min-h-[70vh] flex items-center justify-center pt-20 overflow-hidden">
+        <motion.div
+          className="absolute inset-0 -z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <div className="absolute top-20 left-10 w-72 h-72 bg-accent/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-luxury/5 rounded-full blur-3xl" />
+        </motion.div>
+
         <div className="container mx-auto px-6 lg:px-12 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
           >
             <motion.span
+              variants={staggerItem}
               className="inline-block font-body text-sm tracking-widest text-accent uppercase mb-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
             >
               About Us
             </motion.span>
             <motion.h1
+              variants={staggerItem}
               className="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
             >
               Who We <span className="text-gradient">Are</span>
             </motion.h1>
             <motion.p
+              variants={staggerItem}
               className="font-display text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto italic"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
             >
               From Concept to Code: Your Multi-Domain Solution Architects.
             </motion.p>
@@ -83,10 +93,10 @@ const About = () => {
         imagePosition="right"
       >
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          initial={fadeInLeft.initial}
+          whileInView={fadeInLeft.animate}
+          viewport={viewportOnce}
+          transition={smoothTransition}
           className="space-y-6"
         >
           <h2 className="font-display text-3xl md:text-4xl font-bold">
@@ -104,13 +114,19 @@ const About = () => {
       </ParallaxSection>
 
       {/* What We Do - Centered Section */}
-      <section className="py-24 bg-secondary/30">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-24 bg-secondary/30 relative overflow-hidden">
+        <motion.div
+          className="absolute -top-40 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+
+        <div className="container mx-auto px-6 lg:px-12 relative">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={fadeInUp.initial}
+            whileInView={fadeInUp.animate}
+            viewport={viewportOnce}
+            transition={smoothTransition}
             className="text-center max-w-4xl mx-auto mb-16"
           >
             <span className="inline-block font-body text-sm tracking-widest text-accent uppercase mb-4">
@@ -124,40 +140,36 @@ const About = () => {
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {capabilities.map((cap, index) => (
-                <motion.div
-                  key={cap.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card className="p-6 h-full bg-card/50 backdrop-blur border-border/50 hover:shadow-xl transition-all duration-300 group">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                        <cap.icon className="text-accent" size={24} />
-                      </div>
-                      <h3 className="font-display text-lg font-semibold">{cap.title}</h3>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {capabilities.map((cap, index) => (
+              <motion.div
+                key={cap.title}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={viewportOnce}
+                transition={{ ...smoothTransition, delay: index * 0.1 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+              >
+                <Card className="p-6 h-full bg-card/50 backdrop-blur border-border/50 hover:shadow-xl hover:border-accent/30 transition-all duration-300 group">
+                  <div className="flex items-center gap-4">
+                    <motion.div 
+                      className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors"
+                      whileHover={{ rotate: 5 }}
+                    >
+                      <cap.icon className="text-accent" size={24} />
+                    </motion.div>
+                    <h3 className="font-display text-lg font-semibold">{cap.title}</h3>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={viewportOnce}
+            transition={{ ...smoothTransition, delay: 0.4 }}
             className="text-center mt-12 space-y-4"
           >
             <p className="font-body text-muted-foreground italic">
@@ -177,10 +189,10 @@ const About = () => {
         imagePosition="left"
       >
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          initial={fadeInRight.initial}
+          whileInView={fadeInRight.animate}
+          viewport={viewportOnce}
+          transition={smoothTransition}
           className="space-y-6"
         >
           <span className="inline-block font-body text-sm tracking-widest text-accent uppercase">
@@ -203,13 +215,23 @@ const About = () => {
       </ParallaxSection>
 
       {/* Meet the Founders Section */}
-      <section className="py-24 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
+        <motion.div
+          className="absolute inset-0 -z-10"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={viewportOnce}
+        >
+          <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-luxury/10 rounded-full blur-3xl" />
+        </motion.div>
+
+        <div className="container mx-auto px-6 lg:px-12 relative">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={fadeInUp.initial}
+            whileInView={fadeInUp.animate}
+            viewport={viewportOnce}
+            transition={smoothTransition}
             className="text-center mb-16"
           >
             <span className="inline-block font-body text-sm tracking-widest text-accent uppercase mb-4">
@@ -224,18 +246,23 @@ const About = () => {
             {founders.map((founder, index) => (
               <motion.div
                 key={founder.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={viewportOnce}
+                transition={{ ...smoothTransition, delay: index * 0.2 }}
+                whileHover={{ y: -8 }}
               >
-                <Card className="overflow-hidden bg-primary-foreground/5 border-primary-foreground/10 backdrop-blur">
-                  <div className="aspect-square bg-gradient-to-br from-accent/20 to-luxury/20 flex items-center justify-center">
-                    <div className="w-32 h-32 rounded-full bg-primary-foreground/10 flex items-center justify-center">
+                <Card className="overflow-hidden bg-primary-foreground/5 border-primary-foreground/10 backdrop-blur hover:bg-primary-foreground/10 transition-all duration-300">
+                  <div className="aspect-square bg-gradient-to-br from-accent/20 to-luxury/20 flex items-center justify-center relative overflow-hidden">
+                    <motion.div
+                      className="w-32 h-32 rounded-full bg-primary-foreground/10 flex items-center justify-center"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    >
                       <span className="font-display text-5xl font-bold text-accent">
                         {founder.name[0]}
                       </span>
-                    </div>
+                    </motion.div>
                   </div>
                   <div className="p-6 text-center">
                     <h3 className="font-display text-2xl font-bold mb-1">{founder.name}</h3>
@@ -244,27 +271,22 @@ const About = () => {
                       {founder.description}
                     </p>
                     <div className="flex justify-center gap-4">
-                      <a
-                        href={founder.socials.linkedin}
-                        className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-accent/20 transition-colors"
-                        aria-label={`${founder.name}'s LinkedIn`}
-                      >
-                        <Linkedin size={18} />
-                      </a>
-                      <a
-                        href={founder.socials.twitter}
-                        className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-accent/20 transition-colors"
-                        aria-label={`${founder.name}'s Twitter`}
-                      >
-                        <Twitter size={18} />
-                      </a>
-                      <a
-                        href={founder.socials.github}
-                        className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-accent/20 transition-colors"
-                        aria-label={`${founder.name}'s GitHub`}
-                      >
-                        <Github size={18} />
-                      </a>
+                      {[
+                        { icon: Linkedin, href: founder.socials.linkedin, label: "LinkedIn" },
+                        { icon: Twitter, href: founder.socials.twitter, label: "Twitter" },
+                        { icon: Github, href: founder.socials.github, label: "GitHub" },
+                      ].map((social) => (
+                        <motion.a
+                          key={social.label}
+                          href={social.href}
+                          whileHover={{ scale: 1.15, y: -2 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-accent/20 transition-colors"
+                          aria-label={`${founder.name}'s ${social.label}`}
+                        >
+                          <social.icon size={18} />
+                        </motion.a>
+                      ))}
                     </div>
                   </div>
                 </Card>
@@ -275,15 +297,17 @@ const About = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={viewportOnce}
+            transition={{ ...smoothTransition, delay: 0.4 }}
             className="text-center mt-16"
           >
-            <Button asChild variant="outline" size="lg" className="font-body border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-              <Link to="/team">
-                Explore Our Team <ArrowRight className="ml-2" size={18} />
-              </Link>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button asChild variant="outline" size="lg" className="font-body border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+                <Link to="/team">
+                  Explore Our Team <ArrowRight className="ml-2" size={18} />
+                </Link>
+              </Button>
+            </motion.div>
             <p className="font-body text-sm text-primary-foreground/60 mt-4">
               A dedicated page showcasing all contributors, collaborators, and young talents who join us in our journey.
             </p>
@@ -295,10 +319,10 @@ const About = () => {
       <section className="py-24">
         <div className="container mx-auto px-6 lg:px-12 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={viewportOnce}
+            transition={smoothTransition}
           >
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
               Ready to Build Something <span className="text-gradient">Amazing</span>?
@@ -306,11 +330,13 @@ const About = () => {
             <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Let's discuss how we can turn your ideas into reality
             </p>
-            <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-body">
-              <Link to="/contact">
-                Get in Touch <ArrowRight className="ml-2" size={18} />
-              </Link>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-body">
+                <Link to="/contact">
+                  Get in Touch <ArrowRight className="ml-2" size={18} />
+                </Link>
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -336,6 +362,7 @@ const ParallaxSection = ({ image, imageAlt, imagePosition, children }: ParallaxS
   });
   
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
 
   return (
     <section ref={ref} className="py-24 overflow-hidden">
@@ -349,7 +376,7 @@ const ParallaxSection = ({ image, imageAlt, imagePosition, children }: ParallaxS
             {children}
           </div>
           <motion.div
-            style={{ y }}
+            style={{ y, scale }}
             className={`relative ${imagePosition === "right" ? "lg:order-2" : "lg:order-1"}`}
           >
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
@@ -360,7 +387,10 @@ const ParallaxSection = ({ image, imageAlt, imagePosition, children }: ParallaxS
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
             </div>
-            <div className="absolute -z-10 -bottom-8 -right-8 w-full h-full rounded-2xl bg-accent/10" />
+            <motion.div 
+              className="absolute -z-10 -bottom-8 -right-8 w-full h-full rounded-2xl bg-accent/10"
+              style={{ y: useTransform(scrollYProgress, [0, 1], [50, -50]) }}
+            />
           </motion.div>
         </div>
       </div>
