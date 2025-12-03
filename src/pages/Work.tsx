@@ -8,6 +8,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import workWeb from "@/assets/work-web.jpg";
 import workDesign from "@/assets/work-design.jpg";
+import { link } from "fs";
 
 const Work = () => {
   const projects = [
@@ -19,6 +20,7 @@ const Work = () => {
       tags: ["React", "Custom Dev", "Responsive"],
       image: workWeb,
       status: "Completed",
+      link: "https://flsmartech.com"
     },
     {
       title: "Somasultra Business Site",
@@ -28,6 +30,7 @@ const Work = () => {
       tags: ["Wix Studio", "Business", "CMS"],
       image: workDesign,
       status: "Completed",
+      link: "https://somasutra.in"
     },
     {
       title: "Billing Application",
@@ -37,6 +40,7 @@ const Work = () => {
       tags: ["Next.js", "Supabase", "SaaS"],
       image: workWeb,
       status: "In Progress",
+      link: "https://amc-form.flsmartech.com"
     },
   ];
 
@@ -138,7 +142,7 @@ const Work = () => {
                       </Badge>
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-start p-6">
-                      <ExternalLink className="text-primary-foreground" size={24} />
+                      <a href={project.link}><ExternalLink className="text-primary-foreground" size={24} /></a>
                     </div>
                   </div>
                   <div className="p-6">

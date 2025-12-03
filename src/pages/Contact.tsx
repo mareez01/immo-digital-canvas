@@ -45,19 +45,27 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      content: "hello@immo.agency",
-      link: "mailto:hello@immo.agency",
+      content: "hello@agency.immohub.in",
+      link: "mailto:hello@agency.immohub.in",
     },
     {
       icon: Phone,
       title: "Call Us",
-      content: "+1 (234) 567-890",
-      link: "tel:+1234567890",
+      call: [
+        {
+          content: "+91 7094989578",
+          link: "tel:+917094989578"
+        }, 
+        {
+          content: "+91 6374026570",
+          link: "tel:+916374026570"
+        }
+      ]
     },
     {
       icon: MapPin,
       title: "Visit Us",
-      content: "123 Digital Avenue, Tech City",
+      content: "Your friendly neighbours",
       link: null,
     },
   ];
@@ -85,6 +93,7 @@ const Contact = () => {
           </motion.div>
         </div>
       </section>
+      
 
       {/* Contact Info Cards */}
       <section className="py-16">
@@ -113,6 +122,30 @@ const Contact = () => {
                   ) : (
                     <p className="font-body text-sm text-muted-foreground">{info.content}</p>
                   )}
+
+                  {info.call ? (
+                    info.call.map(e => (
+                      <a
+                      href={e.link}
+                      className="font-body text-sm text-muted-foreground hover:text-accent transition-colors"
+                    >
+                      <p
+                      className="font-body text-sm text-muted-foreground hover:text-accent transition-colors"
+                      >{e.content}</p>
+                    </a>
+                    ))
+                  ): (
+                    <p className="font-body text-sm text-muted-foreground"></p>
+                  )
+
+                  }
+
+                  
+
+                  
+
+
+                   
                 </Card>
               </motion.div>
             ))}
@@ -143,7 +176,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    placeholder="John Doe"
+                    placeholder="Your name"
                     className="font-body"
                   />
                 </div>
@@ -159,7 +192,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    placeholder="john@example.com"
+                    placeholder="Your email address"
                     className="font-body"
                   />
                 </div>
