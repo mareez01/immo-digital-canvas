@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Code, Palette, Workflow, Layout } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,8 +8,26 @@ import Footer from "@/components/Footer";
 import heroBg from "@/assets/hero-bg.jpg";
 import workWeb from "@/assets/work-web.jpg";
 import workDesign from "@/assets/work-design.jpg";
+import { useRef } from "react";
+import { 
+  fadeInUp, 
+  staggerContainer, 
+  staggerItem, 
+  smoothTransition, 
+  viewportOnce,
+  scaleIn
+} from "@/lib/animations";
 
 const Home = () => {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   const services = [
     {
       icon: Code,
@@ -51,27 +69,37 @@ const Home = () => {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 z-0"
+          style={{ y: heroY }}
+        >
           <img
             src={heroBg}
             alt="Hero background"
             className="w-full h-full object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background" />
-        </div>
+        </motion.div>
 
-        <div className="container mx-auto px-6 lg:px-12 relative z-10 text-center">
+        <motion.div 
+          className="container mx-auto px-6 lg:px-12 relative z-10 text-center"
+          style={{ opacity: heroOpacity }}
+        >
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
           >
+            <motion.span
+              variants={staggerItem}
+              className="inline-block font-body text-sm tracking-widest text-accent uppercase mb-6"
+            >
+              Digital Agency
+            </motion.span>
             <motion.h1
+              variants={staggerItem}
               className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
             >
               Digital Excellence
               <br />
@@ -79,44 +107,69 @@ const Home = () => {
             </motion.h1>
 
             <motion.p
+              variants={staggerItem}
               className="font-body text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
             >
               We craft premium web experiences, design stunning brands, and automate workflows.
               From concept to deployment, we're your partner in digital transformation.
             </motion.p>
 
             <motion.div
+              variants={staggerItem}
               className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-body">
-                <Link to="/contact">
-                  Start Your Project <ArrowRight className="ml-2" size={18} />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="font-body border-2">
-                <Link to="/work">View Our Work</Link>
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-body">
+                  <Link to="/contact">
+                    Start Your Project <ArrowRight className="ml-2" size={18} />
+                  </Link>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                <Button asChild variant="outline" size="lg" className="font-body border-2">
+                  <Link to="/work">View Our Work</Link>
+                </Button>
+              </motion.div>
             </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-2"
+          >
+            <motion.div className="w-1.5 h-1.5 rounded-full bg-accent" />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Services Section */}
-      <section className="py-24 bg-secondary/30">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-24 bg-secondary/30 relative overflow-hidden">
+        <motion.div
+          className="absolute -top-40 -right-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.3, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+        
+        <div className="container mx-auto px-6 lg:px-12 relative">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={fadeInUp.initial}
+            whileInView={fadeInUp.animate}
+            viewport={viewportOnce}
+            transition={smoothTransition}
             className="text-center mb-16"
           >
+            <span className="inline-block font-body text-sm tracking-widest text-accent uppercase mb-4">
+              Services
+            </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
               What We Offer
             </h2>
@@ -129,15 +182,19 @@ const Home = () => {
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={viewportOnce}
+                transition={{ ...smoothTransition, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
               >
-                <Card className="p-6 h-full hover:shadow-xl transition-shadow duration-300 bg-card border-border/50">
-                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+                <Card className="p-6 h-full hover:shadow-xl transition-all duration-300 bg-card border-border/50 group">
+                  <motion.div 
+                    className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors"
+                    whileHover={{ rotate: 5, scale: 1.05 }}
+                  >
                     <service.icon className="text-accent" size={24} />
-                  </div>
+                  </motion.div>
                   <h3 className="font-display text-xl font-semibold mb-2">
                     {service.title}
                   </h3>
@@ -152,29 +209,34 @@ const Home = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={viewportOnce}
+            transition={{ ...smoothTransition, delay: 0.4 }}
             className="text-center mt-12"
           >
-            <Button asChild variant="outline" size="lg" className="font-body">
-              <Link to="/services">
-                Explore All Services <ArrowRight className="ml-2" size={18} />
-              </Link>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button asChild variant="outline" size="lg" className="font-body">
+                <Link to="/services">
+                  Explore All Services <ArrowRight className="ml-2" size={18} />
+                </Link>
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* Featured Work Section */}
-      <section className="py-24">
+      <section className="py-24 relative overflow-hidden">
         <div className="container mx-auto px-6 lg:px-12">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={fadeInUp.initial}
+            whileInView={fadeInUp.animate}
+            viewport={viewportOnce}
+            transition={smoothTransition}
             className="text-center mb-16"
           >
+            <span className="inline-block font-body text-sm tracking-widest text-accent uppercase mb-4">
+              Portfolio
+            </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
               Featured Projects
             </h2>
@@ -187,20 +249,27 @@ const Home = () => {
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={viewportOnce}
+                transition={{ ...smoothTransition, delay: index * 0.2 }}
               >
                 <Link to="/work" className="group block">
                   <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500">
                     <div className="relative h-64 overflow-hidden">
-                      <img
+                      <motion.img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        className="w-full h-full object-cover"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.7 }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <motion.div 
+                        className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
                     </div>
                     <div className="p-6">
                       <p className="font-body text-sm text-accent mb-2">{project.category}</p>
@@ -215,27 +284,39 @@ const Home = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={viewportOnce}
+            transition={{ ...smoothTransition, delay: 0.4 }}
             className="text-center mt-12"
           >
-            <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-body">
-              <Link to="/work">
-                View All Projects <ArrowRight className="ml-2" size={18} />
-              </Link>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-body">
+                <Link to="/work">
+                  View All Projects <ArrowRight className="ml-2" size={18} />
+                </Link>
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-6 lg:px-12 text-center">
+      <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
+        <motion.div
+          className="absolute inset-0 -z-10"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={viewportOnce}
+        >
+          <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-luxury/10 rounded-full blur-3xl" />
+        </motion.div>
+
+        <div className="container mx-auto px-6 lg:px-12 text-center relative">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={viewportOnce}
+            transition={smoothTransition}
           >
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
               Ready to Start Your Project?
@@ -243,15 +324,17 @@ const Home = () => {
             <p className="font-body text-lg text-primary-foreground/80 max-w-2xl mx-auto mb-8">
               Let's discuss how we can help elevate your digital presence
             </p>
-            <Button
-              asChild
-              size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90 font-body"
-            >
-              <Link to="/contact">
-                Get in Touch <ArrowRight className="ml-2" size={18} />
-              </Link>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button
+                asChild
+                size="lg"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 font-body"
+              >
+                <Link to="/contact">
+                  Get in Touch <ArrowRight className="ml-2" size={18} />
+                </Link>
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </section>
