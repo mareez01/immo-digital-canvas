@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import aboutTeam from "@/assets/about-team.jpg";
-import aboutEcosystem from "@/assets/about-ecosystem.jpg";
+import immo from "@/assets/immo.png";
 import { useRef } from "react";
 import {
   fadeInUp,
@@ -192,7 +192,7 @@ I shows high curiosity, rapid learning, and deep involvement in many technical a
 
       {/* Why We Are Different - Parallax Section */}
       <ParallaxSection
-        image={aboutEcosystem}
+        image={immo}
         imageAlt="IMMO Hub digital ecosystem"
         imagePosition="left"
       >
@@ -319,9 +319,6 @@ I shows high curiosity, rapid learning, and deep involvement in many technical a
                 </Link>
               </Button>
             </motion.div>
-            <p className="font-body text-sm text-primary-foreground/60 mt-4">
-              A dedicated page showcasing all contributors, collaborators, and young talents who join us in our journey.
-            </p>
           </motion.div>
         </div>
       </section>
