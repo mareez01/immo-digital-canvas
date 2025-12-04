@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import aboutTeam from "@/assets/about-team.jpg";
-import aboutEcosystem from "@/assets/about-ecosystem.jpg";
+import immo from "@/assets/immo.png";
 import { useRef } from "react";
 import {
   fadeInUp,
@@ -184,7 +184,7 @@ const About = () => {
 
       {/* Why We Are Different - Parallax Section */}
       <ParallaxSection
-        image={aboutEcosystem}
+        image={immo}
         imageAlt="IMMO Hub digital ecosystem"
         imagePosition="left"
       >
@@ -308,9 +308,6 @@ const About = () => {
                 </Link>
               </Button>
             </motion.div>
-            <p className="font-body text-sm text-primary-foreground/60 mt-4">
-              A dedicated page showcasing all contributors, collaborators, and young talents who join us in our journey.
-            </p>
           </motion.div>
         </div>
       </section>
