@@ -22,8 +22,8 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Github, href: "#", label: "GitHub" },
+    // { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Github, href: "https://github.com/immoco", label: "GitHub" },
   ];
 
   return (
