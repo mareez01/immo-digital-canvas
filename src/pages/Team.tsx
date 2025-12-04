@@ -15,21 +15,27 @@ import {
 } from "@/lib/animations";
 
 const Team = () => {
-  const founders = [
-    {
-      name: "Siva",
-      role: "Co-Founder & Tech Lead",
-      description: "Visionary builder passionate about technology and creating impactful digital solutions. Leads the technical architecture and innovation at IMMO Hub.",
-      expertise: ["Full-Stack Development", "System Architecture", "Automation"],
-      socials: { linkedin: "#", twitter: "#", github: "#", email: "siva@immohub.in" },
-    },
+    const founders = [
     {
       name: "Sanjay",
-      role: "Co-Founder & Creative Director",
-      description: "Creative strategist focused on innovation and building sustainable digital ecosystems. Drives design thinking and client relationships.",
+      img: "/founder/sanjay.jpg",
+      role: "Co-Founder",
       expertise: ["Creative Strategy", "UI/UX Design", "Brand Development"],
-      socials: { linkedin: "#", twitter: "#", github: "#", email: "sanjay@immohub.in" },
+      tagline: "A tech soul wrapped in business development.",
+      description: "Creative strategist focused on innovation and building sustainable digital ecosystems.",
+      socials: { linkedin: "https://www.linkedin.com/in/sanjaysakthi001/", twitter: "#", github: "https://github.com/immoco", email: "sanjay@immohub.in" },
     },
+    {
+      name: "Siva",
+      img: "/founder/siva.jpg",
+      role: "Co-Founder",
+      expertise: ["Full-Stack Development", "System Architecture", "Automation"],
+      tagline: "I build software, solve technical problems, and enable businesses",
+      description: `Hi there, I am Siva, a multi-disciplinary guy, who works across software development, IT services, teaching, and business deals.
+I shows high curiosity, rapid learning, and deep involvement in many technical and business domains simultaneously. `,
+      socials: { linkedin: "https://www.linkedin.com/in/sivaraman01/  ", twitter: "#", github: "https://github.com/mareez01", email: "siva@immohub.in" },
+    },
+    
   ];
 
   const contributors = [
@@ -158,18 +164,19 @@ const Team = () => {
                 whileHover={{ y: -8 }}
               >
                 <Card className="overflow-hidden h-full bg-card border-border/50 hover:shadow-2xl transition-all duration-500 group">
-                  <div className="aspect-[4/3] bg-gradient-to-br from-accent/10 via-luxury/5 to-primary/10 flex items-center justify-center relative overflow-hidden">
+                  <div className="aspect-square bg-gradient-to-br from-accent/20 to-luxury/20 flex items-center justify-center relative overflow-hidden">
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent"
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
+                      className="w-full h-full relative overflow-hidden"
+                      whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
-                    />
-                    <div className="w-40 h-40 rounded-full bg-background/80 backdrop-blur flex items-center justify-center border-4 border-accent/20 group-hover:border-accent/40 transition-colors duration-300">
-                      <span className="font-display text-7xl font-bold text-gradient">
-                        {founder.name[0]}
-                      </span>
-                    </div>
+                    >
+                      <img
+                        src={founder.img}
+                        alt={`${founder.name}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent" />
+                    </motion.div>
                   </div>
                   <div className="p-8">
                     <h3 className="font-display text-2xl font-bold mb-1">{founder.name}</h3>
@@ -197,7 +204,7 @@ const Team = () => {
                       >
                         <Linkedin size={18} />
                       </motion.a>
-                      <motion.a
+                      {/* <motion.a
                         href={founder.socials.twitter}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -205,7 +212,7 @@ const Team = () => {
                         aria-label={`${founder.name}'s Twitter`}
                       >
                         <Twitter size={18} />
-                      </motion.a>
+                      </motion.a> */}
                       <motion.a
                         href={founder.socials.github}
                         whileHover={{ scale: 1.1 }}

@@ -18,6 +18,8 @@ import {
   viewportOnce,
 } from "@/lib/animations";
 
+
+
 const About = () => {
   const capabilities = [
     { icon: Code, title: "Web Development & Web Apps" },
@@ -29,17 +31,23 @@ const About = () => {
 
   const founders = [
     {
-      name: "Siva",
+      name: "Sanjay",
+      img: "/founder/sanjay.jpg",
       role: "Co-Founder",
-      description: "Visionary builder passionate about technology and creating impactful digital solutions.",
-      socials: { linkedin: "#", twitter: "#", github: "#" },
+      tagline: "A tech soul wrapped in business development.",
+      description: "Creative strategist focused on innovation and building sustainable digital ecosystems.",
+      socials: { linkedin: "https://www.linkedin.com/in/sanjaysakthi001/", twitter: "#", github: "https://github.com/immoco" },
     },
     {
-      name: "Sanjay",
+      name: "Siva",
+      img: "/founder/siva.jpg",
       role: "Co-Founder",
-      description: "Creative strategist focused on innovation and building sustainable digital ecosystems.",
-      socials: { linkedin: "#", twitter: "#", github: "#" },
+      tagline: "I build software, solve technical problems, and enable businesses",
+      description: `Hi there, I am Siva, a multi-disciplinary guy, who works across software development, IT services, teaching, and business deals.
+I shows high curiosity, rapid learning, and deep involvement in many technical and business domains simultaneously. `,
+      socials: { linkedin: "https://www.linkedin.com/in/sivaraman01/  ", twitter: "#", github: "https://github.com/mareez01" },
     },
+    
   ];
 
   return (
@@ -255,33 +263,36 @@ const About = () => {
                 <Card className="overflow-hidden bg-primary-foreground/5 border-primary-foreground/10 backdrop-blur hover:bg-primary-foreground/10 transition-all duration-300">
                   <div className="aspect-square bg-gradient-to-br from-accent/20 to-luxury/20 flex items-center justify-center relative overflow-hidden">
                     <motion.div
-                      className="w-32 h-32 rounded-full bg-primary-foreground/10 flex items-center justify-center"
-                      whileHover={{ scale: 1.1 }}
+                      className="w-full h-full relative overflow-hidden"
+                      whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <span className="font-display text-5xl font-bold text-accent">
-                        {founder.name[0]}
-                      </span>
+                      <img
+                        src={founder.img}
+                        alt={`${founder.name}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent" />
                     </motion.div>
                   </div>
                   <div className="p-6 text-center">
-                    <h3 className="font-display text-2xl font-bold mb-1">{founder.name}</h3>
+                    <h3 className="font-display text-2xl text-gray-100 font-bold mb-1">{founder.name}</h3>
                     <p className="font-body text-sm text-accent mb-4">{founder.role}</p>
                     <p className="font-body text-sm text-primary-foreground/70 mb-6">
                       {founder.description}
                     </p>
-                    <div className="flex justify-center gap-4">
+                    <div className="flex justify-center  gap-4">
                       {[
                         { icon: Linkedin, href: founder.socials.linkedin, label: "LinkedIn" },
-                        { icon: Twitter, href: founder.socials.twitter, label: "Twitter" },
+                        // { icon: Twitter, href: founder.socials.twitter, label: "Twitter" },
                         { icon: Github, href: founder.socials.github, label: "GitHub" },
                       ].map((social) => (
                         <motion.a
                           key={social.label}
                           href={social.href}
-                          whileHover={{ scale: 1.15, y: -2 }}
+                          whileHover={{ scale: 1.15, y: -5 }}
                           whileTap={{ scale: 0.95 }}
-                          className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-accent/20 transition-colors"
+                          className="w-10 h-10 rounded-full bg-primary-foreground/50 flex items-center justify-center hover:bg-primary-foreground transition-colors"
                           aria-label={`${founder.name}'s ${social.label}`}
                         >
                           <social.icon size={18} />
@@ -302,7 +313,7 @@ const About = () => {
             className="text-center mt-16"
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-              <Button asChild variant="outline" size="lg" className="font-body border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+              <Button asChild variant="outline" size="lg" className="font-body bg-slate-700 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
                 <Link to="/team">
                   Explore Our Team <ArrowRight className="ml-2" size={18} />
                 </Link>
