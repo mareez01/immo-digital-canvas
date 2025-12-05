@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 import logo  from "@/assets/logo.png"
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,12 +20,21 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
     { name: "Work", path: "/work" },
     { name: "Contact", path: "/contact" },
+    ...(user ? [{ name: "Dashboard", path: "/dashboard" }] : []),
   ];
 
   return (
@@ -61,6 +72,17 @@ const Navigation = () => {
                 />
               </Link>
             ))}
+            {user && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSignOut}
+                className="flex items-center gap-2"
+              >
+                <LogOut size={16} />
+                Logout
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -96,6 +118,20 @@ const Navigation = () => {
                 {link.name}
               </Link>
             ))}
+            {user && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  handleSignOut();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-2 self-start"
+              >
+                <LogOut size={16} />
+                Logout
+              </Button>
+            )}
           </div>
         </motion.div>
       )}
